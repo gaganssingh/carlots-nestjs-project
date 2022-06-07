@@ -1,18 +1,26 @@
 # *******************************
+# FETCH ALL USERS
+# GET /auth/signup
+# *******************************
+### 🟢 VALID
+GET http://localhost:3000/auth/signup
+
+
+# *******************************
 # CREATE NEW USER
 # POST /auth/signup
 # *******************************
 
-### Create new user - 🟢 VALID
+### 🟢 VALID
 POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "t@t.com",
+  "email": "t2@t.com",
   "password": "123456"
 }
 
-### Create new user - 🚫 INVALID
+### 🚫 INVALID
 POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
@@ -20,7 +28,7 @@ Content-Type: application/json
   "password": "123456"
 }
 
-### Create new user - 🚫 INVALID
+### 🚫 INVALID
 POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
@@ -28,7 +36,7 @@ Content-Type: application/json
   "email": "t@t.com"
 }
 
-### Create new user - 🚫 INVALID
+### 🚫 INVALID
 POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
@@ -36,6 +44,61 @@ Content-Type: application/json
 }
 
 # *******************************
-# 
-#  /auth/signup
+# FETCH USER BY id
+# GET /auth/:id
 # *******************************
+### 🟢 VALID
+GET http://localhost:3000/auth/1
+
+
+### 🚫 INVALID
+GET http://localhost:3000/auth/500
+
+
+# *******************************
+# FETCH USER BY email
+# GET /auth
+# *******************************
+### 🟢 VALID
+GET http://localhost:3000/auth?email=t2@t.com
+
+
+### 🚫 INVALID
+GET http://localhost:3000/auth?email=not@found.com
+
+# *******************************
+# UPDATE USER BY id
+# PATCH /auth/signup/:id
+# *******************************
+### 🟢 VALID
+PATCH http://localhost:3000/auth/1
+Content-Type: application/json
+
+{
+  "email": "updated@updated.com"
+}
+
+### 🟢 VALID
+PATCH http://localhost:3000/auth/1
+Content-Type: application/json
+
+{
+  "password": "newpasword"
+}
+
+### 🚫 INVALID
+PATCH http://localhost:3000/auth/500
+Content-Type: application/json
+
+{
+}
+
+# *******************************
+# DELETE USER BY id
+# DELETE /auth/signup/:id
+# *******************************
+### 🟢 VALID
+DELETE http://localhost:3000/auth/1
+
+### 🚫 INVALID
+DELETE http://localhost:3000/auth/500

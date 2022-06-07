@@ -2,7 +2,28 @@
 
 A used car pricing REST API build using NestJS, and PostgreSQL with TypeScript Support.
 
+## NestJS Operation Flow
+
 ### Starting a new NestJS app:
+
+```
+Client makes request
+(E.g. { name: "Test User", email: "test@test.com", password: "123456" })
+        ⬇️
+NestJS Validation Pipe ➡️ vefirication performed using the DTO
+        ⬇️
+Domain Controller
+(Defines routes. Intercepts request body, query params etc., which is forwaded to the service)
+        ⬇️
+Domain Service ➡️ Refers the Entity definitions
+(Defines the business logic, e.g. fetching all users from the db)
+        ⬇️
+Domain Repository ➡️ Refers the Entity definitions
+(Created by TypeORM in the background, to perform the operations defined the service)
+        ⬇️
+Database Queries
+(Local temp storage, PostgreSQL, SQLite, MongoDB etc.)
+```
 
 - Install the nestjs cli
   `npm i -g @nestjs/cli`

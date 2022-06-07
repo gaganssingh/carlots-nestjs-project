@@ -1,11 +1,53 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { UpdateUserDto } from './dtos/update-user.dto';
+import { UsersService } from './users.service';
 
 // ROUTE -> /auth/
 @Controller('auth')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
+  @Get(`/:id`)
+  async findUser(@Param(`id`) id: string) {
+    const user = await this.usersService.findOne(+id);
+    if (!user)
+      throw new NotFoundException(`Unable to find user with id: ${id}`);
+
+    return user;
+  }
+
+  @Get()
+  async findAllUsers(@Query('email') email: string) {
+    const users = await this.usersService.find(email);
+    if (users.length === 0)
+      throw new NotFoundException(`Unable to find user with email: ${email}`);
+    return users;
+  }
+
   @Post(`/signup`)
   createUser(@Body() body: CreateUserDto) {
-    return body;
+    const { email, password } = body;
+    this.usersService.create(email, password);
+  }
+
+  @Patch(`/:id`)
+  updateUser(@Param(`id`) id: string, @Body() body: UpdateUserDto) {
+    return this.usersService.update(+id, body);
+  }
+
+  @Delete(`/:id`)
+  removeUser(@Param(`id`) id: string) {
+    return this.usersService.remove(+id);
   }
 }
