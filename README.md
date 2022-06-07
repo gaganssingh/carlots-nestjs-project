@@ -4,8 +4,6 @@ A used car pricing REST API build using NestJS, and PostgreSQL with TypeScript S
 
 ## NestJS Operation Flow
 
-### Starting a new NestJS app:
-
 ```
 Client makes request
 (E.g. { name: "Test User", email: "test@test.com", password: "123456" })
@@ -24,6 +22,8 @@ Domain Repository ➡️ Refers the Entity definitions
 Database Queries
 (Local temp storage, PostgreSQL, SQLite, MongoDB etc.)
 ```
+
+### Starting a new NestJS app:
 
 - Install the nestjs cli
   `npm i -g @nestjs/cli`
