@@ -1,0 +1,41 @@
+# *******************************
+# CREATE NEW USER
+# POST /auth/signup
+# *******************************
+
+### Create new user - 🟢 VALID
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+  "email": "t@t.com",
+  "password": "123456"
+}
+
+### Create new user - 🚫 INVALID
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+  "password": "123456"
+}
+
+### Create new user - 🚫 INVALID
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+  "email": "t@t.com"
+}
+
+### Create new user - 🚫 INVALID
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+}
+
+# *******************************
+# 
+#  /auth/signup
+# *******************************

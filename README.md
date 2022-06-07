@@ -87,6 +87,46 @@ A used car pricing REST API build using NestJS, and PostgreSQL with TypeScript S
       }
       ```
 
+### Adding a new Entity:
+
+- Install packages: `npm i @nestjs/typeorm typeorm`
+- Add the entity definition: `src/users/user.entity.ts`
+
+  ```
+  import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+  @Entity()
+  export class User {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column()
+    email: string;
+
+    @Column()
+    password: string;
+  }
+  ```
+
+- Import/Connect entity to the module:
+  E.g. `src/users/users.module.ts`
+  ```
+  @Module({
+    imports: [TypeOrmModule.forFeature([User])],  // 🟢 Right here
+    controllers: [UsersController],
+    providers: [UsersService]
+  }
+  ```
+- Import/Connect entity to the `app.module.ts`
+  ```
+  TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'db.sqlite',
+      entities: [User], // 🟢 Right here
+      synchronize: true,
+    }),
+  ```
+
 ### Using NestJS CLI:
 
 - Module generation:
@@ -111,4 +151,10 @@ A used car pricing REST API build using NestJS, and PostgreSQL with TypeScript S
   CREATE src/cpu/cpu.controller.spec.ts
   CREATE src/cpu/cpu.controller.ts
   UPDATE src/cpu/cpu.module.ts
+  ```
+- Generate Classes:
+  `nest generate class users/dtos/create-user.dto`
+  Responds with:
+  ```
+  CREATE src/users/dtos/create-user.dto.ts
   ```
