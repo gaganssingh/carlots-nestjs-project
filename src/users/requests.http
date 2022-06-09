@@ -81,8 +81,15 @@ Content-Type: application/json
 }
 
 # *******************************
+# SIGN OUT
+# GET /auth/signout
+# *******************************
+### 🟢 VALID
+POST http://localhost:3000/auth/signout
+
+# *******************************
 # CURRENT USER
-# GET /auth/current-user
+# GET /auth/whoami
 # *******************************
 ### 🟢 VALID
 GET http://localhost:3000/auth/whoami
