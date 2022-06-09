@@ -7,7 +7,7 @@ GET http://localhost:3000/auth/signup
 
 
 # *******************************
-# CREATE NEW USER
+# SIGNUP
 # POST /auth/signup
 # *******************************
 
@@ -16,7 +16,7 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "t2@t.com",
+  "email": "demo2@demo.com",
   "password": "123456"
 }
 
@@ -42,6 +42,50 @@ Content-Type: application/json
 
 {
 }
+
+# *******************************
+# SIGNIN
+# POST /auth/signin
+# *******************************
+
+### 🟢 VALID
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "demo2@demo.com",
+  "password": "123456"
+}
+
+### 🚫 INVALID
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "password": "123456"
+}
+
+### 🚫 INVALID
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+  "email": "demo@demo.com"
+}
+
+### 🚫 INVALID
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+}
+
+# *******************************
+# CURRENT USER
+# GET /auth/current-user
+# *******************************
+### 🟢 VALID
+GET http://localhost:3000/auth/whoami
 
 # *******************************
 # FETCH USER BY id
