@@ -48,7 +48,7 @@ Content-Type: application/json
 # GET /auth/:id
 # *******************************
 ### 🟢 VALID
-GET http://localhost:3000/auth/1
+GET http://localhost:3000/auth/5
 
 
 ### 🚫 INVALID
@@ -71,11 +71,11 @@ GET http://localhost:3000/auth?email=not@found.com
 # PATCH /auth/signup/:id
 # *******************************
 ### 🟢 VALID
-PATCH http://localhost:3000/auth/1
+PATCH http://localhost:3000/auth/5
 Content-Type: application/json
 
 {
-  "email": "updated@updated.com"
+  "email": "updated11223344@updated.com"
 }
 
 ### 🟢 VALID
