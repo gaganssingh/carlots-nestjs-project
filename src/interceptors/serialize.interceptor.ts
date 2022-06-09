@@ -1,8 +1,18 @@
-import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
+import {
+  CallHandler,
+  ExecutionContext,
+  NestInterceptor,
+  UseInterceptors,
+} from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+// CUSTOM DECORATOR
+export const Serialize = (dto: any) =>
+  UseInterceptors(new SerializeInterceptor(dto));
+
+// INTERCEPTOR
 export class SerializeInterceptor implements NestInterceptor {
   constructor(private readonly dto: any) {}
 
