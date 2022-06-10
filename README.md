@@ -108,6 +108,40 @@ Database Queries
       }
       ```
 
+### Implementing current user auth:
+
+```
+🚫🚫🚫🚫
+  TODO
+🚫🚫🚫🚫
+```
+
+### Implementing Guards (authenticated route example):
+
+1. Create the class: `src/guards/auth.guard.ts`
+
+   ```
+   import { CanActivate, ExecutionContext } from '@nestjs/common';
+
+   export class AuthGuard implements CanActivate {
+     canActivate(context: ExecutionContext) {
+       // Check if a current user exists
+       // on the request body's session
+       const request = context.switchToHttp().getRequest();
+       return request.session.userId;
+     }
+   }
+   ```
+
+2. Apply to either the whole controller, or individual route handlers:
+   ```
+   @Get(`/whoami`)
+   @UseGuards(AuthGuard)
+   whoAmI(@CurrentUser() user: User) {
+     return user;
+   }
+   ```
+
 ### Adding a new Entity:
 
 - Install packages: `npm i @nestjs/typeorm typeorm`
