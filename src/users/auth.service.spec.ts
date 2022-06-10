@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { User } from './user.entity';
@@ -31,12 +31,15 @@ describe(`[AuthService]`, () => {
     service = module.get(AuthService);
   });
 
-  it(`can create an instance of the auth service`, async () => {
-    expect(service).toBeDefined();
+  describe(`general test`, () => {
+    it(`can create an instance of the auth service`, async () => {
+      expect(service).toBeDefined();
+    });
   });
 
   describe(`signup`, () => {
     it(`successfully signup a new user and returns a hashed password`, async () => {
+      expect.assertions(5);
       const newUser = {
         email: 'test@test.com',
         password: '123456789qwerty',
@@ -53,13 +56,60 @@ describe(`[AuthService]`, () => {
     });
 
     it(`throws an error if signup email already exists`, async () => {
+      expect.assertions(1);
+
       fakeUsersService.find = () =>
         Promise.resolve([{ id: 1, email: 'a', password: '1' } as User]);
 
-      await expect(
-        service.signup('asdf@asdf.com', 'asdf'),
-      ).rejects.toBeInstanceOf(BadRequestException);
+      const response = service.signup('test@test.com', '1234567890');
+      await expect(response).rejects.toBeInstanceOf(BadRequestException);
     });
     //
+  });
+
+  describe(`signin`, () => {
+    it(`throws an error if email not found`, async () => {
+      expect.assertions(1);
+      const response = service.signin('doesnot@exist.com', '1234567890');
+
+      await expect(response).rejects.toBeInstanceOf(NotFoundException);
+    });
+
+    // ALTERNATIVE TEST
+    // // Prefer the above as that has a clear expect
+    it(`throws an error if email not found ALTERNATIVE`, async () => {
+      try {
+        await service.signin('doesnot@exist.com', '1234567890');
+      } catch (error) {}
+    });
+
+    it(`throws an error if password is invalid`, async () => {
+      expect.assertions(1);
+
+      fakeUsersService.find = () =>
+        Promise.resolve([
+          { email: 'test@test.com', password: '123456' } as User,
+        ]);
+      const response = service.signin('test@test.com', 'abcdef');
+      await expect(response).rejects.toBeInstanceOf(BadRequestException);
+
+      // ALTERNATIVE
+      // try {
+      //   await service.signin('test@test.com', 'abcdef');
+      // } catch (error) {}
+    });
+
+    it.only(`returns a user on providing correct user and password`, async () => {
+      const createTestUser = await service.signup('test@test.com', '123456');
+      const testPassword = createTestUser.password;
+
+      fakeUsersService.find = () =>
+        Promise.resolve([
+          { email: 'test@test.com', password: testPassword } as User,
+        ]);
+
+      const user = await service.signin('test@test.com', '123456');
+      expect(user).toBeDefined();
+    });
   });
 });
