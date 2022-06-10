@@ -6,14 +6,26 @@ import { UsersService } from './users.service';
 
 describe(`[AuthService]`, () => {
   let service: AuthService;
-  let fakeUsersService: Partial<UsersService>;
 
   beforeEach(async () => {
+    const users: User[] = [];
+
     // mocked users service
-    fakeUsersService = {
-      find: () => Promise.resolve([]),
-      create: (email: string, password: string) =>
-        Promise.resolve({ id: 1, email, password } as User),
+    const fakeUsersService: Partial<UsersService> = {
+      find: (email: string) => {
+        const filteredUsers = users.filter((user) => user.email === email);
+        return Promise.resolve(filteredUsers);
+      },
+      create: (email: string, password: string) => {
+        const user = {
+          id: Math.floor(Math.random() * 9999999) + 1,
+          email,
+          password,
+        } as User;
+
+        users.push(user);
+        return Promise.resolve(user);
+      },
     };
 
     const module = await Test.createTestingModule({
@@ -57,10 +69,7 @@ describe(`[AuthService]`, () => {
 
     it(`throws an error if signup email already exists`, async () => {
       expect.assertions(1);
-
-      fakeUsersService.find = () =>
-        Promise.resolve([{ id: 1, email: 'a', password: '1' } as User]);
-
+      await service.signup('test@test.com', '1234567890');
       const response = service.signup('test@test.com', '1234567890');
       await expect(response).rejects.toBeInstanceOf(BadRequestException);
     });
@@ -86,11 +95,8 @@ describe(`[AuthService]`, () => {
     it(`throws an error if password is invalid`, async () => {
       expect.assertions(1);
 
-      fakeUsersService.find = () =>
-        Promise.resolve([
-          { email: 'test@test.com', password: '123456' } as User,
-        ]);
-      const response = service.signin('test@test.com', 'abcdef');
+      await service.signup('test@test.com', 'abcdef');
+      const response = service.signin('test@test.com', '123456789');
       await expect(response).rejects.toBeInstanceOf(BadRequestException);
 
       // ALTERNATIVE
@@ -99,14 +105,8 @@ describe(`[AuthService]`, () => {
       // } catch (error) {}
     });
 
-    it.only(`returns a user on providing correct user and password`, async () => {
-      const createTestUser = await service.signup('test@test.com', '123456');
-      const testPassword = createTestUser.password;
-
-      fakeUsersService.find = () =>
-        Promise.resolve([
-          { email: 'test@test.com', password: testPassword } as User,
-        ]);
+    it(`returns a user on providing correct user and password`, async () => {
+      await service.signup('test@test.com', '123456');
 
       const user = await service.signin('test@test.com', '123456');
       expect(user).toBeDefined();
