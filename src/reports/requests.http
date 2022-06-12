@@ -1,0 +1,25 @@
+# *******************************
+# CREATE NEW REPORT
+# POST /reports
+# *******************************
+### 🟢 VALID
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+  "make": "Lamborghini",
+  "model": "Urus",
+  "year": 2023,
+  "mileage": 27,
+  "lng": 43.8352078,
+  "lat": -79.8013401,
+  "price": 419000
+
+}
+
+### 🚫 INVALID
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+}
