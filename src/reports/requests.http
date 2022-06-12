@@ -16,6 +16,20 @@ Content-Type: application/json
   "price": 419000
 }
 
+### 🟢 VALID
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+  "make": "Jaguar",
+  "model": "F-Type",
+  "year": 2023,
+  "mileage": 119,
+  "lng": 43.8352078,
+  "lat": -79.8013401,
+  "price": 132000
+}
+
 ### 🚫 INVALID
 POST http://localhost:3000/reports
 Content-Type: application/json
