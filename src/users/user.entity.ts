@@ -1,9 +1,11 @@
+import { Report } from 'src/reports/report.entity';
 import {
   AfterInsert,
   AfterRemove,
   AfterUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -17,6 +19,11 @@ export class User {
 
   @Column()
   password: string;
+
+  // Associate the user to reports
+  // One user can have many reports
+  @OneToMany(() => Report, (report) => report.user)
+  reports: Report[];
 
   // HOOKS - ONLY executed when .save(), .remove() is called with an entity instance
   @AfterInsert()

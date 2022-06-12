@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/users/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Report {
@@ -25,4 +26,9 @@ export class Report {
 
   @Column()
   price: number;
+
+  // Associate the report to a user
+  // One report can only belong to 1 user
+  @ManyToOne(() => User, (user) => user.reports)
+  user: User;
 }
