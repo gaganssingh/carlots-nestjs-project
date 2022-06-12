@@ -19,6 +19,7 @@ const cookieSession = require('cookie-session');
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
+        name: 'dbconnection',
         type: 'sqlite',
         database: config.get<string>(`DB_NAME`), // DN_NAME is an env variable
         entities: [User, Report],
