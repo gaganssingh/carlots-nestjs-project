@@ -39,7 +39,7 @@ Content-Type: application/json
 
 # *******************************
 # APPROVE | DISAPPROVE REPORT
-# PATCH /reports
+# PATCH /reports/:id
 # *******************************
 ### 🟢 VALID
 PATCH http://localhost:3000/reports/1
@@ -57,3 +57,12 @@ Content-Type: application/json
 {
   "approved": false
 }
+
+
+# *******************************
+# GET ESTIMATE
+# GET /reports
+# Using Query Strings
+# *******************************
+### 🟢 VALID
+GET http://localhost:3000/reports?make=toyota&model=corolla&lng=45.38&lat=-75.65&mileage=2000&year=1980
