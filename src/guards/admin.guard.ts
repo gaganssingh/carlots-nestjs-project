@@ -5,9 +5,8 @@ export class AdminGuard implements CanActivate {
     console.log(`Inside the AdminGuard`);
 
     const request = context.switchToHttp().getRequest();
-    console.log('request.currentUser', request.currentUser);
-    console.log('request', request);
-    if (!request.currentuser) {
+    if (!request.currentUser) {
+      console.log(`request.currentUser is NOT`);
       return false;
     }
 
