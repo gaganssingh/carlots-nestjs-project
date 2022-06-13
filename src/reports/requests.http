@@ -23,11 +23,11 @@ Content-Type: application/json
 {
   "make": "Jaguar",
   "model": "F-Type",
-  "year": 2023,
+  "year": 2021,
   "mileage": 119,
   "lng": 43.8352078,
   "lat": -79.8013401,
-  "price": 132000
+  "price": 125300
 }
 
 ### 🚫 INVALID
@@ -65,4 +65,4 @@ Content-Type: application/json
 # Using Query Strings
 # *******************************
 ### 🟢 VALID
-GET http://localhost:3000/reports?make=toyota&model=corolla&lng=45.38&lat=-75.65&mileage=2000&year=1980
+GET http://localhost:3000/reports?make=Jaguar&model=F-Type&lng=43.75&lat=-79.99&mileage=2000&year=2022

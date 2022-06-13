@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { Repository } from 'typeorm';
 import { CreateReportDto } from './dtos/create-report.dto';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 import { Report } from './report.entity';
 
 @Injectable()
@@ -11,6 +12,31 @@ export class ReportsService {
     @InjectRepository(Report)
     private repo: Repository<Report>,
   ) {}
+
+  createEstimate(estimateDto: GetEstimateDto) {
+    const { make, model, lng, lat, year, mileage } = estimateDto;
+    return (
+      this.repo
+        .createQueryBuilder()
+        .select(`AVG(price)`, `price`)
+        .where(`make=:make`, { make })
+        .andWhere(`model=:model`, { model })
+        // Lng between +/- 5 deg
+        .andWhere(`lng - :lng BETWEEN -5 AND 5`, { lng })
+        // Lat between +/- 5 deg
+        .andWhere(`lat - :lat BETWEEN -5 AND 5`, { lat })
+        // Year between +/- 3 years
+        .andWhere(`year - :year BETWEEN -3 AND 3`, { year })
+        // Only show approved listings
+        .andWhere(`approved IS TRUE`)
+        // Sort by mileage
+        .orderBy(`ABS(mileage - :mileage)`, `DESC`)
+        .setParameters({ mileage })
+        // Only get 3 results
+        .limit(3)
+        .getRawOne()
+    );
+  }
 
   create(reportDto: CreateReportDto, user: User) {
     // Create the report instance that is to be save in the db
