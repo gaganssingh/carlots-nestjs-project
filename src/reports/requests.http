@@ -36,3 +36,24 @@ Content-Type: application/json
 
 {
 }
+
+# *******************************
+# APPROVE | DISAPPROVE REPORT
+# PATCH /reports
+# *******************************
+### 🟢 VALID
+PATCH http://localhost:3000/reports/1
+Content-Type: application/json
+
+{
+  "approved": true
+}
+
+
+### 🟢 VALID
+PATCH http://localhost:3000/reports/1
+Content-Type: application/json
+
+{
+  "approved": false
+}

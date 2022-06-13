@@ -2,6 +2,12 @@
 
 A used car pricing REST API build using NestJS, and PostgreSQL with TypeScript Support.
 
+## To Start Server:
+
+1. Rename `example.env.development` & `example.env.test` to `.env.development` & `.env.test` respectively.
+2. Install dependencies using `npm i`
+3. Run server using `npm run start:dev`
+
 ## NestJS Operation Flow
 
 ```
