@@ -20,6 +20,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ default: true })
+  admin: boolean;
+
   // Associate the user to reports
   // One user can have many reports
   @OneToMany(() => Report, (report) => report.user)
